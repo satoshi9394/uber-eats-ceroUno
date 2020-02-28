@@ -20,24 +20,30 @@ const restaurantes = (APP, zonas) => {
       res.json({status: 'suceess', result:{zonasLocation}})
     }
   })
-  APP.post(['/platillos', ] ,(req, res) => {
+  APP.post(['/platillos/:status', ] ,(req, res) => {
+    let status= req.params.status
     let platillo = restaurante.platillos
-    if(req.body.endProces===false){
-      if(req.body.process==='agregar'){
-        elecionPlatillo = platillo.find(platillo => platillo.name == req.body.platillo )
-        newPlatillo = newPlatillo.concat(elecionPlatillo)
-        res.json({status: 'pedido actual:', result:{newPlatillo}})
-      }else if(req.body.process==='eliminar'){
-        let platillo = req.body.platillo
-        newPlatillo = newPlatillo.filter(newPlatillo => newPlatillo.name != platillo )
-        res.json({status: 'pedido actual:', result:{newPlatillo}})
-      }else{
-        res.send('opcion no valida')
-      }
-    }else{
-      res.json({status: 'Fin de pedido', result:{restaurante}})
+    switch(status){
+      case 'comprando':
+        if(req.body.process==='agregar'){
+          elecionPlatillo = platillo.find(platillo => platillo.name == req.body.platillo )
+          newPlatillo = newPlatillo.concat(elecionPlatillo)
+          res.json({status: 'pedido actual:', result:{newPlatillo}})
+        }else if(req.body.process==='eliminar'){
+          let platillo = req.body.platillo
+          newPlatillo = newPlatillo.filter(newPlatillo => newPlatillo.name != platillo )
+          res.json({status: 'pedido actual:', result:{newPlatillo}})
+        }else{
+          res.send('opcion no valida')
+        }
+        break;
+      case 'cancelar':
+        newPlatillo=[]
+        res.json({status: 'pedido cancelado', result:{newPlatillo}})
+        break;
+      case 'confirmado':
+        res.json({status: 'comprado el pedido', result:{newPlatillo}})
     }
-    res.json({status: 'suceess', result:{restaurante}})
   });
 
 }
