@@ -1,26 +1,46 @@
 
 const restaurantes = (APP, zonas) => {
 
-  let zonaId = ''
-  let nameRestaurante = ''
-  
-  APP.get('/zona/:zona',(req, res)=>{
-    console.log(zonas);
-    zonaId = req.params.zona
-    let zonas1 = zonas.find(zonas => zonas.zona === zonaId)
-    //res.send(zonas)
-    res.json({status: 'suceess', result:{zonas1}})
-  });
+  let zonaId = '';
+  let nameRestaurante = '';
+  let zonasLocation=[];
+  let restaurante=[];
+  let elecionPlatillo =  [];
+  let newPlatillo=[];
 
-  APP.get('/zona/:zona/:restaurante', (req, res)=>{
+  APP.get(['/zona/:zona','/zona/:zona/:restaurante'], (req, res)=>{
     zonaId=req.params.zona
     nameRestaurante = req.params.restaurante
-    console.log(nameRestaurante)
-    let zonas1 = zonas.find(zonas => zonas.zona === zonaId)
-    console.log(zonas1.restaurantes)
-    let restaurante = zonas1.find( zonas1 => zonas1.restaurantes === nameRestaurante )
-    res.json({status: 'suceess', result:{restaurante}})
+    zonasLocation = zonas.find(zonas => zonas.zona === zonaId)
+    if (nameRestaurante){
+      let rest=zonasLocation.restaurantes
+      restaurante = rest.find( rest => rest.name = nameRestaurante )
+      res.json({status: 'suceess', result:{restaurante}})
+    }else{
+      res.json({status: 'suceess', result:{zonasLocation}})
+    }
   })
+  APP.post(['/platillos', ] ,(req, res) => {
+    let platillo = restaurante.platillos
+    if(req.body.endProces===false){
+      if(req.body.process==='agregar'){
+        elecionPlatillo = platillo.find(platillo => platillo.name = req.body.platillo )
+        newPlatillo = newPlatillo.concat(elecionPlatillo)
+        res.json({status: 'agregando mas platillos', result:{newPlatillo}})
+      }else if(req.body.process==='eliminar'){
+        let platillo = req.body.platillo
+        console.log(newPlatillo.name)
+        let eraseId= newPlatillo.filter(newPlatillo => newPlatillo.name != platillo )
+        console.log(eraseId)
+        res.send('platillo eliminado')
+      }else{
+        res.send('opcion no valida')
+      }
+    }else{
+      res.json({status: 'Fin de pedido', result:{restaurante}})
+    }
+    res.json({status: 'suceess', result:{restaurante}})
+  });
 
 }
 

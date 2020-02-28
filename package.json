@@ -4,7 +4,7 @@
   "description": "ejercicio de final de la semana 1 del back",
   "main": "index.js",
   "scripts": {
-    "dev:uber-eats": "nodemon --exec babel-node express-babel.js"
+    "dev:uber-eats": "nodemon --exec babel-node main.js"
   },
   "author": "",
   "license": "ISC",

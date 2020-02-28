@@ -39,11 +39,11 @@ const zonas = [
         name: 'dominos',
         platillos:[
           {
-            platillo: 'pizza de peperoni',
+            name: 'pizza de peperoni',
             precio: '70'
           },
           {
-            platillo: 'pizza hawaina',
+            name: 'pizza hawaina',
             precio: '90'
           }
         ]
@@ -52,11 +52,11 @@ const zonas = [
         name: 'madonals',
         platillos:[
           {
-            platillo: 'buger dople',
+            name: 'buger dople',
             precio: '70'
           },
           {
-            platillo: 'buger sencilla',
+            name: 'buger sencilla',
             precio: '50'
           }
         ]
