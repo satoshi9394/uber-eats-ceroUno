@@ -26,13 +26,11 @@ const restaurantes = (APP, zonas) => {
       if(req.body.process==='agregar'){
         elecionPlatillo = platillo.find(platillo => platillo.name == req.body.platillo )
         newPlatillo = newPlatillo.concat(elecionPlatillo)
-        res.json({status: 'agregando mas platillos', result:{newPlatillo}})
+        res.json({status: 'pedido actual:', result:{newPlatillo}})
       }else if(req.body.process==='eliminar'){
         let platillo = req.body.platillo
-        console.log(newPlatillo.name)
-        let eraseId= newPlatillo.filter(newPlatillo => newPlatillo.name != platillo )
-        console.log(eraseId)
-        res.send('platillo eliminado')
+        newPlatillo = newPlatillo.filter(newPlatillo => newPlatillo.name != platillo )
+        res.json({status: 'pedido actual:', result:{newPlatillo}})
       }else{
         res.send('opcion no valida')
       }
