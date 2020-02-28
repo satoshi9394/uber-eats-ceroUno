@@ -1,0 +1,23 @@
+{
+  "name": "uber-eats",
+  "version": "1.0.0",
+  "description": "ejercicio de final de la semana 1 del back",
+  "main": "index.js",
+  "scripts": {
+    "dev:uber-eats": "nodemon --exec babel-node express-babel.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@babel/core": "^7.8.6",
+    "body-parser": "^1.19.0",
+    "core-js": "^3.6.4",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "@babel/node": "^7.8.4",
+    "@babel/preset-env": "^7.8.6",
+    "nodemon": "^2.0.2"
+  }
+}
