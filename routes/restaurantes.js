@@ -7,6 +7,8 @@ const restaurantes = (APP, zonas) => {
   let restaurante=[];
   let elecionPlatillo =  [];
   let newPlatillo=[];
+  let allCost= 0
+  let product=[]
 
   APP.get(['/zona/:zona','/zona/:zona/:restaurante'], (req, res)=>{
     zonaId=req.params.zona
@@ -42,7 +44,11 @@ const restaurantes = (APP, zonas) => {
         res.json({status: 'pedido cancelado', result:{newPlatillo}})
         break;
       case 'confirmado':
-        res.json({status: 'comprado el pedido', result:{newPlatillo}})
+        for(let idx in newPlatillo){
+          allCost= allCost + Number(newPlatillo[idx].precio)
+          product = product.concat(newPlatillo[idx].name)
+        }
+        res.json({status: 'comprado el pedido', result:{newPlatillo}, total: {allCost}})
     }
   });
 
