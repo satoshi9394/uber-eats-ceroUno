@@ -4,7 +4,7 @@ import { v4 as uuidv4 } from 'uuid';
 let orderActual = []
 let orderEnd = []
 
-const restaurant = (REST, orderClient, ordersRest) =>{
+const restaurant = (REST, orderClient, ordersRest, ordersRep) =>{
   REST.get('/pedido' , (req, res) => {
     ordersRest.push({
       id: uuidv4(),
@@ -27,17 +27,9 @@ const restaurant = (REST, orderClient, ordersRest) =>{
         res.json({status: 'pedido cancelado', actual:{ordersRest}, cancelado: {cancelado} })
         break
       case 'terminado':
-        orderEnd = orderActual.find( o => {
-          if(o.id === id){
-            return o.pedido
-          }
-        })
-        console.log(orderEnd)
-        ordersRest.push({
-          id: uuidv4(),
-          pedido: [orderEnd]
-        })
-        res.json({status: 'pedido finalizado', result:{orderEnd}})
+        orderEnd = orderActual.find( o => o.id === id)
+        ordersRep.push({...orderEnd})
+        res.json({status: 'pedido finalizado', result:{ordersRep}})
         break
     }
 

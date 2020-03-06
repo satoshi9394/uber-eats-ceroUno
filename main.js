@@ -8,6 +8,7 @@ import zonas from './utils/zonasRestaurantes'
 //rutas del proyecto
 import client from './routes/client'
 import restaurant from './routes/restaurant';
+import distributor from './routes/distributor';
 
 
 
@@ -37,7 +38,8 @@ const SERVER = http.createServer(APP);
 
 
 client(CLIENTE, zonas, orderClient)
-restaurant(RESTAURANTE, orderClient , ordersRest)
+restaurant(RESTAURANTE, orderClient , ordersRest, ordersRep)
+distributor(REPARTIDOR, ordersRep)
 
 
 
