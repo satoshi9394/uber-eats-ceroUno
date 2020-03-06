@@ -6,21 +6,39 @@ import bodyParse from 'body-parser'
 import zonas from './utils/zonasRestaurantes'
 
 //rutas del proyecto
-import restaurantes from './routes/restaurantes'
+import client from './routes/client'
+import restaurant from './routes/restaurant';
+
+
+
 
 
 dotenv.config()
 
+
+
 const APP = express();
+const CLIENTE = express();
+const RESTAURANTE = express();
+const REPARTIDOR = express();
 
 APP.use(bodyParse.json());
 
+APP.use('/cliente', CLIENTE);
+APP.use('/restuarante', RESTAURANTE);
+APP.use('/repartidor', REPARTIDOR);
+
+let orderClient = []
+let ordersRest = []
+let ordersRep = []
 
 const SERVER = http.createServer(APP);
 
 
 
-restaurantes(APP, zonas)
+client(CLIENTE, zonas, orderClient)
+restaurant(RESTAURANTE, orderClient , ordersRest)
+
 
 
 SERVER.listen(process.env.PORT);

@@ -1,16 +1,14 @@
 
-const restaurantes = (APP, zonas) => {
+const restaurantes = (CLIENTE, zonas, orderClient) => {
 
   let zonaId = '';
   let nameRestaurante = '';
   let zonasLocation=[];
   let restaurante=[];
   let elecionPlatillo =  [];
-  let newPlatillo=[];
   let allCost= 0
-  let product=[]
 
-  APP.get(['/zona/:zona','/zona/:zona/:restaurante'], (req, res)=>{
+  CLIENTE.get(['/zona/:zona','/zona/:zona/:restaurante'], (req, res)=>{
     zonaId=req.params.zona
     nameRestaurante = req.params.restaurante
     zonasLocation = zonas.find(zonas => zonas.zona === zonaId)
@@ -22,33 +20,33 @@ const restaurantes = (APP, zonas) => {
       res.json({status: 'suceess', result:{zonasLocation}})
     }
   })
-  APP.post(['/platillos/:status', ] ,(req, res) => {
+  CLIENTE.post(['/platillos/:status', ] ,(req, res) => {
     let status= req.params.status
     let platillo = restaurante.platillos
     switch(status){
       case 'comprando':
         if(req.body.process==='agregar'){
           elecionPlatillo = platillo.find(platillo => platillo.name == req.body.platillo )
-          newPlatillo = newPlatillo.concat(elecionPlatillo)
-          res.json({status: 'pedido actual:', result:{newPlatillo}})
+          orderClient.push({...elecionPlatillo})
+          res.json({status: 'pedido actual:', result:{orderClient}})
         }else if(req.body.process==='eliminar'){
           let platillo = req.body.platillo
-          newPlatillo = newPlatillo.filter(newPlatillo => newPlatillo.name != platillo )
-          res.json({status: 'pedido actual:', result:{newPlatillo}})
+          orderClient = orderClient.filter(orderClient => orderClient.name != platillo )
+          res.json({status: 'pedido actual:', result:{orderClient}})
         }else{
           res.send('opcion no valida')
         }
         break;
       case 'cancelar':
-        newPlatillo=[]
-        res.json({status: 'pedido cancelado', result:{newPlatillo}})
+        orderClient=[]
+        res.json({status: 'pedido cancelado', result:{orderClient}})
         break;
       case 'confirmado':
-        for(let idx in newPlatillo){
-          allCost= allCost + Number(newPlatillo[idx].precio)
-          product = product.concat(newPlatillo[idx].name)
+        for(let idx in orderClient){
+          allCost= allCost + Number(orderClient[idx].precio)
         }
-        res.json({status: 'comprado el pedido', result:{newPlatillo}, total: {allCost}})
+        res.json({status: 'comprado el pedido', result:{orderClient}, total: {allCost}})
+      
     }
   });
 
